@@ -282,7 +282,7 @@ public class Functions
 						} 
 					}));
 					
-					MainActivity.mScene.registerUpdateHandler(new TimerHandler((float) 10.85, new ITimerCallback() 
+					MainActivity.mScene.registerUpdateHandler(new TimerHandler((float) 12.92, new ITimerCallback() 
 					{
 						
 						@Override

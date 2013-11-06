@@ -33,8 +33,8 @@ public class MainActivity extends SimpleBaseGameActivity
 	public Camera mCamera;
 	public static Scene mScene;
 	
-	private BuildableBitmapTextureAtlas mBitmapTextureAtlas, mBitmapTextureAtlas1;
-	public static ITextureRegion mKolomTextureRegion, mBoardTextureRegion;
+	private BuildableBitmapTextureAtlas mBitmapTextureAtlas, mBitmapTextureAtlas1, mBitmapTextureAtlas2;
+	public static ITextureRegion mAamTextureRegion, mMaTextureRegion;
 	ITiledTextureRegion mParrotTextureRegion;
 	public static ITextureRegion mMoTextureRegion;
 	public static ITextureRegion mLetter1TextureRegion, mLetter2TextureRegion, mLetter3TextureRegion, mLetter4TextureRegion;
@@ -44,7 +44,7 @@ public class MainActivity extends SimpleBaseGameActivity
 	private BuildableBitmapTextureAtlas mAnimatedBitmapTextureAtlas;
 	
 	public static Sprite backGround, backGround2;
-	public static Sprite board, monkey;
+	public static Sprite aam, ma;
 	public static Parrot parrot; 
 	public static Letter letter1, letter2, letter3, letter4;
 	public static Sprite mo;
@@ -90,6 +90,9 @@ public class MainActivity extends SimpleBaseGameActivity
 				this.getTextureManager(), 1600, 1200);
 		mBitmapTextureAtlas1 = new BuildableBitmapTextureAtlas(
 				this.getTextureManager(), 1600, 1200);
+		mBitmapTextureAtlas2 = new BuildableBitmapTextureAtlas(
+				this.getTextureManager(), 1600, 1200);
+		
 
 		mbackGroundTextureRegion = BitmapTextureAtlasTextureRegionFactory
 				.createFromAsset(this.mBitmapTextureAtlas, this, "bg3.png");
@@ -108,7 +111,12 @@ public class MainActivity extends SimpleBaseGameActivity
 				.createFromAsset(this.mBitmapTextureAtlas1, this, "mo.png");
 		mLetter4TextureRegion = BitmapTextureAtlasTextureRegionFactory
 				.createFromAsset(this.mBitmapTextureAtlas1, this, "mo.png");
-		
+
+		mAamTextureRegion = BitmapTextureAtlasTextureRegionFactory
+				.createFromAsset(this.mBitmapTextureAtlas2, this, "aam.png");
+		mMaTextureRegion = BitmapTextureAtlasTextureRegionFactory
+				.createFromAsset(this.mBitmapTextureAtlas2, this, "ma.png");
+
 		mAnimatedBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 1000, 334, TextureOptions.NEAREST);
 		mParrotTextureRegion = BitmapTextureAtlasTextureRegionFactory.
 				createTiledFromAsset(this.mAnimatedBitmapTextureAtlas, this, "parrot-4.png", 6, 2);
@@ -128,6 +136,16 @@ public class MainActivity extends SimpleBaseGameActivity
 			mBitmapTextureAtlas1.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource,
 					BitmapTextureAtlas>(0, 0, 0));
 			mBitmapTextureAtlas1.load();
+		} 
+		catch (TextureAtlasBuilderException e)
+		{
+			Debug.e(e);
+		}
+		try 
+		{
+			mBitmapTextureAtlas2.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource,
+					BitmapTextureAtlas>(0, 0, 0));
+			mBitmapTextureAtlas2.load();
 		} 
 		catch (TextureAtlasBuilderException e)
 		{
@@ -160,7 +178,7 @@ public class MainActivity extends SimpleBaseGameActivity
 		backGround.setWidth(CAMERA_WIDTH);
 		mScene.attachChild(backGround);
 		
-		letter1 = new Letter(MainActivity.CAMERA_WIDTH / 18+100,MainActivity.CAMERA_HEIGHT / 18, MainActivity.mMoTextureRegion,
+		letter1 = new Letter(CAMERA_WIDTH , parrotHeight, MainActivity.mMoTextureRegion,
 				MainActivity.vertexBufferObjectManager); 
 		mScene.registerTouchArea(letter1);
 		mScene.attachChild(letter1);
@@ -180,121 +198,43 @@ public class MainActivity extends SimpleBaseGameActivity
 		mScene.registerTouchArea(letter4);
 		mScene.attachChild(letter4);
 		
-		parrot = new Parrot(20, 30, mParrotTextureRegion, getVertexBufferObjectManager());
+		parrot = new Parrot(CAMERA_WIDTH, parrotHeight, mParrotTextureRegion, getVertexBufferObjectManager());
 		parrot.animate(new long[]{80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80}, 0, 11, true);
 		parrot.setFlippedHorizontal(true);
 		mScene.registerTouchArea(parrot); 
 		mScene.attachChild(parrot);
 		
-//		mScene.registerUpdateHandler(new TimerHandler((float)1.0f/120, true, new ITimerCallback()
-//		{
-//			@Override
-//			public void onTimePassed(TimerHandler pTimerHandler) 
-//			{
-//				// TODO Auto-generated method stub
-//				if(parrotWay == 1)
-//				{
-//					Functions.letter(2, 1, MainActivity.letter1, letter1Pos +20, letter1Pos +20,
-//							MainActivity.CAMERA_HEIGHT / 2 -80, 
-//							MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
-//				}
-//				else if(parrotWay == 2) 
-//				{
-//					Functions.parrotPath(3, 2, parrot, MainActivity.letter1Pos,
-//							-400, 
-//							MainActivity.parrotHeight,
-//							MainActivity.parrotHeight
-//							);
-//				}
-//				else if(parrotWay == 3)
-//				{ 
-//					Functions.parrotWithLetterPath(4, 
-//							1, 4, MainActivity.letter2, parrot, -400, letter2Pos, 
-//							MainActivity.parrotHeight, MainActivity.parrotHeight);
-//				}
-//				else if(parrotWay == 4)
-//				{
-//					Functions.letter(5, 2, MainActivity.letter2, letter2Pos, letter2Pos,
-//							MainActivity.CAMERA_HEIGHT / 2 -80, 
-//							MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
-//				} 
-//				else if(parrotWay == 5)
-//				{
-//					Functions.parrotPath(6, 3, parrot, MainActivity.letter2Pos,
-//							MainActivity.CAMERA_WIDTH+400,
-//							MainActivity.parrotHeight,
-//							MainActivity.parrotHeight
-//							);
-//				}
-//				else if(parrotWay == 6)
-//				{
-//					Functions.parrotWithLetterPath(7, 
-//							0, 4, MainActivity.letter3, parrot, CAMERA_WIDTH+400, letter3Pos, 
-//							MainActivity.parrotHeight, MainActivity.parrotHeight);
-//				}
-//				else if(parrotWay == 7)
-//				{
-//					Functions.letter(8, 1, MainActivity.letter3, letter3Pos, letter3Pos,
-//							MainActivity.CAMERA_HEIGHT / 2 -80, 
-//							MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
-//				}
-//				else if(parrotWay == 8)
-//				{
-//					Functions.parrotPath(9, 4, parrot, letter3Pos,
-//							-400,
-//							MainActivity.parrotHeight,
-//							MainActivity.parrotHeight
-//							);
-//				}
-//				else if(parrotWay == 9)
-//				{
-//					Functions.parrotWithLetterPath(10,
-//							1, 7, MainActivity.letter4, parrot, -600, letter4Pos, 
-//							MainActivity.parrotHeight, MainActivity.parrotHeight);
-//				}
-//				else if(parrotWay == 10)
-//				{
-//					Functions.letter(11, 1, MainActivity.letter4, letter4Pos, letter4Pos,
-//							MainActivity.CAMERA_HEIGHT / 2 -80, 
-//							MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
-//				}
-//				else if(parrotWay == 11)
-//				{
-//					parrot.setFlippedHorizontal(true);
-//					Functions.path(12, parrot, MainActivity.letter4Pos, MainActivity.parrotHeight,
-//							MainActivity.letter1Pos, MainActivity.letter1.getY(),
-//							-200, MainActivity.parrotHeight
-//							);
-//				}
-//				else if(parrotWay == 12)
-//				{
-//					parrot.setFlippedHorizontal(false);
-//					Functions.path(13, parrot, -200, MainActivity.parrotHeight,
-//							MainActivity.letter1Pos, MainActivity.letter1.getY(),
-//							MainActivity.letter1Pos, MainActivity.parrotHeight
-//							);
-//				}
-//				else if(parrotWay == 13)
-//				{
-//					
-//				}
-//				else if(parrotWay == 14)
-//				{
-//					
-//				}
-//				else if(parrotWay == 15)
-//				{
-//					
-//				}
-//			}
-//		}));
+		aam = new Letter(MainActivity.letter2Pos+100,MainActivity.CAMERA_HEIGHT/2+100 , MainActivity.mAamTextureRegion,
+				MainActivity.vertexBufferObjectManager); 
+		mScene.registerTouchArea(aam);
+		aam.setWidth(150);
+		aam.setHeight(150);
+		mScene.attachChild(aam);
+		aam.setVisible(false);
 		
-		Functions.audioPlay = true;
-		Functions.playAudio(R.raw.first);
+		ma = new Letter(MainActivity.letter4Pos+100,MainActivity.CAMERA_HEIGHT/2+100 , MainActivity.mMaTextureRegion,
+				MainActivity.vertexBufferObjectManager);
+		mScene.registerTouchArea(ma);
+		ma.setWidth(150);
+		ma.setHeight(150);
+		mScene.attachChild(ma);
+		ma.setVisible(false);
 		
-		Functions.parrotWithLetterPath(1, 0, 6,  letter1, parrot, MainActivity.CAMERA_WIDTH  , letter1Pos,
-				parrotHeight, parrotHeight);
-		
+		mScene.registerUpdateHandler(new TimerHandler(5, new ITimerCallback() 
+		{
+			@Override
+			public void onTimePassed(TimerHandler pTimerHandler) 
+			{
+				// TODO Auto-generated method stub
+				
+				SoundFunction.audioPlay = true;
+				SoundFunction.playAudio(R.raw.first);
+				 
+				Functions.parrotWithLetterPath(1, 8, 
+						0, 6,  letter1, parrot, MainActivity.CAMERA_WIDTH  , letter1Pos,
+						parrotHeight, parrotHeight);
+			}
+		}));
 		
 		return mScene;
 	}

@@ -1,5 +1,7 @@
 package com.example.tutorial;
 
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.modifier.MoveModifier;
@@ -11,17 +13,12 @@ import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.EaseSineInOut;
-import android.media.MediaPlayer;
 
 public class Functions 
 {
 
-	static Boolean audioPlay = false;
-	static MediaPlayer mediaPlayer = new MediaPlayer();
-	
-	static void parrotWithLetterPath(final int number, int flip, float time, Sprite sprite, Sprite sprite1, float x1, final float x2, float y1, float y2) 
+	static void parrotWithLetterPath(final int number, float delay, int flip, float time, Sprite sprite, Sprite sprite1, float x1, final float x2, float y1, float y2) 
 	{
-		
 		if(flip == 0)
 		{
 			sprite1.setFlippedHorizontal(true);
@@ -34,7 +31,7 @@ public class Functions
 		MoveModifier mModParrot = new MoveModifier(time, x1, x2, y1, y2);
 		MoveModifier mModLetter = new MoveModifier(time, x1 +20, x2 +20, y1 +120, y2 +120);
 		
-		DelayModifier dMod = new DelayModifier((float) 1,new IEntityModifierListener()
+		DelayModifier dMod = new DelayModifier((float) delay,new IEntityModifierListener()
 		{
 
 					@Override
@@ -52,16 +49,23 @@ public class Functions
 						
 						if(MainActivity.parrotWay == 10)
 						{
-							Functions.letter(11, 1, MainActivity.letter4, MainActivity.letter4Pos, 
+							Functions.letter(11, 2, MainActivity.letter4, MainActivity.letter4Pos, 
 									MainActivity.letter4Pos,
 									MainActivity.CAMERA_HEIGHT / 2 -80, 
 									MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
+							
+							SoundFunction.audioPlay = true;
+							SoundFunction.playAudioLoop2(R.raw.fiftht, R.raw.sixth);
 						}
 						else if(MainActivity.parrotWay == 7)
 						{
-							Functions.letter(8, 1, MainActivity.letter3, MainActivity.letter3Pos, 
+							Functions.letter(8, 2, MainActivity.letter3, MainActivity.letter3Pos, 
 									MainActivity.letter3Pos,MainActivity.CAMERA_HEIGHT / 2 -80, 
 									MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
+							
+							SoundFunction.audioPlay = true;
+							SoundFunction.playAudio(R.raw.fiftho);
+							
 						}
 						else if(MainActivity.parrotWay == 4)
 						{
@@ -69,13 +73,19 @@ public class Functions
 									MainActivity.letter2Pos,
 									MainActivity.CAMERA_HEIGHT / 2 -80, 
 									MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
+							
+							SoundFunction.audioPlay = true;
+							SoundFunction.playAudioLoop3(R.raw.thirdo ,R.raw.thirds ,R.raw.thirdt);
 						}
 						else
 						{
-							Functions.letter(2, 1, MainActivity.letter1, MainActivity.letter1Pos +20, 
-									MainActivity.letter1Pos +20,
+							Functions.letter(2, (float) 1.5, MainActivity.letter1, MainActivity.letter1Pos, 
+									MainActivity.letter1Pos,
 									MainActivity.CAMERA_HEIGHT / 2 -80, 
 									MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
+							
+							SoundFunction.audioPlay = true;
+							SoundFunction.playAudio(R.raw.sec);
 						}
 					}
 				});
@@ -112,34 +122,47 @@ public class Functions
 							
 							Functions.path(12, MainActivity.parrot, MainActivity.letter4Pos,
 									MainActivity.parrotHeight,
-									MainActivity.letter1Pos, MainActivity.letter1.getY(),
+									MainActivity.letter1.getX(), MainActivity.letter1.getY() - 100,
 									-200, MainActivity.parrotHeight
-									);
+				 					);
+							
+//							SoundFunction.audioPlay = true;
+//							SoundFunction.playAudio(R.raw.seven);
 						}
 						else if(MainActivity.parrotWay == 8)
 						{
-							Functions.parrotPath(9, 4, MainActivity.parrot, 
-									MainActivity.letter3Pos, -400,
+							Functions.parrotPath(9, 1, 2, MainActivity.parrot, 
+									MainActivity.letter3Pos, -150,
 									MainActivity.parrotHeight,
 									MainActivity.parrotHeight
 									);
 						}
 						else if(MainActivity.parrotWay == 5)
 						{
-							Functions.parrotPath(6, 3, MainActivity.parrot, MainActivity.letter2Pos,
-									MainActivity.CAMERA_WIDTH+400,
+							Functions.parrotPath(6, 11, 3, MainActivity.parrot, MainActivity.letter2Pos,
+									MainActivity.CAMERA_WIDTH+150,
 									MainActivity.parrotHeight,
 									MainActivity.parrotHeight
 									);
+							MainActivity.mScene.registerUpdateHandler(new TimerHandler((float) 0.85, new ITimerCallback() {
+								
+								@Override
+								public void onTimePassed(TimerHandler pTimerHandler) 
+								{
+									// TODO Auto-generated method stub
+									SoundFunction.audioPlay = true;
+									SoundFunction.playAudio(R.raw.forth);
+								}
+							}));
+							
 						}
 						else
 						{
-						
-						Functions.parrotPath(3, 2, MainActivity.parrot, MainActivity.letter1Pos,
-								-400, 
-								MainActivity.parrotHeight,
-								MainActivity.parrotHeight
-								);
+							Functions.parrotPath(3, 5, 2, MainActivity.parrot, MainActivity.letter1Pos,
+									-150, 
+									MainActivity.parrotHeight,
+									MainActivity.parrotHeight
+									);
 						}
 					}
 				});  
@@ -149,10 +172,10 @@ public class Functions
 	}
 	
 	
-	protected static void parrotPath(final int number, float time, Sprite sprite, float x1, float x2, float y1, float y2)
+	protected static void parrotPath(final int number, float delay, float time, Sprite sprite, float x1, float x2, float y1, float y2)
 	{
 		MoveModifier mModParrot1 = new MoveModifier(time, x1, x2, y1, y2);
-		DelayModifier dMod1 = new DelayModifier((float) 0,new IEntityModifierListener()
+		DelayModifier dMod1 = new DelayModifier((float) delay , new IEntityModifierListener()
 		{
 
 					@Override
@@ -170,25 +193,28 @@ public class Functions
 						
 						if(MainActivity.parrotWay == 9)
 						{
-							Functions.parrotWithLetterPath(10,
-									1, 7, MainActivity.letter4, MainActivity.parrot, -600, 
+							Functions.parrotWithLetterPath(10, (float) 0.5,
+									1, 2, MainActivity.letter4, MainActivity.parrot, -150, 
 									MainActivity.letter4Pos, 
 									MainActivity.parrotHeight, MainActivity.parrotHeight);
+							
+							SoundFunction.audioPlay = true;
+							SoundFunction.playAudio(R.raw.fifths);
 						}
 						else if(MainActivity.parrotWay == 6)
 						{
-							Functions.parrotWithLetterPath(7, 
-									0, 4, MainActivity.letter3, MainActivity.parrot, 
-									MainActivity.CAMERA_WIDTH+400, MainActivity.letter3Pos, 
+						
+							Functions.parrotWithLetterPath(7, 1,
+									0, 3, MainActivity.letter3, MainActivity.parrot, 
+									MainActivity.CAMERA_WIDTH+150, MainActivity.letter3Pos, 
 									MainActivity.parrotHeight, MainActivity.parrotHeight);
 						} 
 						else
 						{
-						Functions.parrotWithLetterPath(4, 
-								1, 4, MainActivity.letter2, MainActivity.parrot, -400, 
-								MainActivity.letter2Pos,
-								MainActivity.parrotHeight, MainActivity.parrotHeight);
-					
+							Functions.parrotWithLetterPath(4, 1,
+									1, 3, MainActivity.letter2, MainActivity.parrot, -150, 
+									MainActivity.letter2Pos,
+									MainActivity.parrotHeight, MainActivity.parrotHeight);
 						}
 					}
 				});
@@ -228,57 +254,71 @@ public class Functions
 				//Debug.d("onPathFinished");
 				MainActivity.parrotWay = number; 
 				
-				if(MainActivity.parrotWay == 14)
+				if(MainActivity.parrotWay == 16)
 				{
-					Functions.path(15, MainActivity.parrot, MainActivity.letter1Pos,
+					MainActivity.ma.setVisible(true);
+					SoundFunction.audioPlay = true;
+					SoundFunction.playAudioLoop2(R.raw.thirteen, R.raw.forteen);
+				}
+				else if(MainActivity.parrotWay == 15)
+				{
+					Functions.path(16, MainActivity.parrot, MainActivity.letter3Pos-30,
 							MainActivity.parrotHeight,
-							MainActivity.letter2Pos, MainActivity.letter2.getY(),
-							MainActivity.letter2Pos, MainActivity.parrotHeight
+							MainActivity.letter4Pos-30, MainActivity.letter4.getY() -100,
+							MainActivity.letter4Pos-30, MainActivity.parrotHeight
 							);
+					SoundFunction.audioPlay = true;
+					SoundFunction.playAudio(R.raw.twelve);
+				}
+				else if(MainActivity.parrotWay == 14)
+				{
+					
+					MainActivity.mScene.registerUpdateHandler(new TimerHandler(9, new ITimerCallback()
+					{
+						@Override
+						public void onTimePassed(TimerHandler pTimerHandler) 
+						{
+							// TODO Auto-generated method stub
+							Functions.path(15, MainActivity.parrot, MainActivity.letter2Pos-30,
+									MainActivity.parrotHeight,
+									MainActivity.letter3Pos-30, MainActivity.letter3.getY() -100,
+									MainActivity.letter3Pos-30, MainActivity.parrotHeight
+									);
+							SoundFunction.audioPlay = true;
+							SoundFunction.playAudio(R.raw.eleven);
+						}
+					}));
+					
+					MainActivity.aam.setVisible(true);
+					
+					SoundFunction.audioPlay = true;
+					SoundFunction.playAudioLoop2(R.raw.nine, R.raw.ten);
 				}
 				else if(MainActivity.parrotWay == 13)
 				{
-					Functions.path(14, MainActivity.parrot, -200, MainActivity.parrotHeight,
-							MainActivity.letter1Pos, MainActivity.letter1.getY(),
-							MainActivity.letter1Pos, MainActivity.parrotHeight
+					
+					Functions.path(14, MainActivity.parrot, MainActivity.letter1Pos-30,
+							MainActivity.parrotHeight,
+							MainActivity.letter2Pos-30, MainActivity.letter2.getY() -100,
+							MainActivity.letter2Pos-30, MainActivity.parrotHeight
 							);
-				}
-				else
+					SoundFunction.audioPlay = true;
+					SoundFunction.playAudio(R.raw.eight);
+ 				}
+				else if(MainActivity.parrotWay == 12)
 				{
 					MainActivity.parrot.setFlippedHorizontal(false);
 					
-					Functions.path(13, MainActivity.parrot, -200, MainActivity.parrotHeight,
-							MainActivity.letter1Pos, MainActivity.letter1.getY(),
-							MainActivity.letter1Pos, MainActivity.parrotHeight
+					Functions.path(13, MainActivity.parrot, -150, MainActivity.parrotHeight,
+							MainActivity.letter1.getX()-30, MainActivity.letter1.getY() - 100,
+							MainActivity.letter1.getX()-30, MainActivity.parrotHeight
 							);
+					SoundFunction.audioPlay = true;
+					SoundFunction.playAudio(R.raw.seven);
 				}
 				
 			}
 		}, EaseSineInOut.getInstance()));
 	}
 	
-	//Audio play Function
-	public static void playAudio(int val)
-	{
-		if(audioPlay)
-		{
-			if(!mediaPlayer.isPlaying())
-			{
-				mediaPlayer.reset();
-				mediaPlayer = MediaPlayer.create(MainActivity.MainActivityInstace, val);
-				
-				try 
-				{
-					mediaPlayer.start();
-					mediaPlayer.setLooping(false);
-				} 
-				catch (IllegalStateException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			audioPlay = true;
-		}
-	}
 }

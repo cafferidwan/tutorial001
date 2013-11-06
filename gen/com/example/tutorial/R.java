@@ -33,7 +33,24 @@ public final class R {
         public static final int main=0x7f080000;
     }
     public static final class raw {
-        public static final int first=0x7f040000;
+        public static final int eight=0x7f040000;
+        public static final int eleven=0x7f040001;
+        public static final int fiftho=0x7f040002;
+        public static final int fifths=0x7f040003;
+        public static final int fiftht=0x7f040004;
+        public static final int first=0x7f040005;
+        public static final int forteen=0x7f040006;
+        public static final int forth=0x7f040007;
+        public static final int nine=0x7f040008;
+        public static final int sec=0x7f040009;
+        public static final int seven=0x7f04000a;
+        public static final int sixth=0x7f04000b;
+        public static final int ten=0x7f04000c;
+        public static final int thirdo=0x7f04000d;
+        public static final int thirds=0x7f04000e;
+        public static final int thirdt=0x7f04000f;
+        public static final int thirteen=0x7f040010;
+        public static final int twelve=0x7f040011;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;

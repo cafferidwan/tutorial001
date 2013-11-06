@@ -70,10 +70,10 @@ public class MainActivity extends SimpleBaseGameActivity
 		CAMERA_WIDTH = display.getWidth();
 		
 		parrotHeight = MainActivity.CAMERA_HEIGHT / 2 -200;
-		letter1Pos = MainActivity.CAMERA_WIDTH/2 - MainActivity.CAMERA_WIDTH/4;
+		letter1Pos = MainActivity.CAMERA_WIDTH/2 - MainActivity.CAMERA_WIDTH/4 - 100;
 		letter2Pos = letter1Pos + 100;
-		letter3Pos = letter2Pos + 200;
-		letter4Pos = letter3Pos + 100;
+		letter3Pos = letter2Pos + 300;
+		letter4Pos = letter3Pos + 100; 
 		
 		mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		
@@ -95,22 +95,21 @@ public class MainActivity extends SimpleBaseGameActivity
 		
 
 		mbackGroundTextureRegion = BitmapTextureAtlasTextureRegionFactory
-				.createFromAsset(this.mBitmapTextureAtlas, this, "bg3.png");
+				.createFromAsset(this.mBitmapTextureAtlas, this, "JungleBG.png");
 		mbackGround2TextureRegion = BitmapTextureAtlasTextureRegionFactory
-				.createFromAsset(this.mBitmapTextureAtlas1, this, "bg.png");
-		
+				.createFromAsset(this.mBitmapTextureAtlas1, this, "JungleBG.png");
 		
 		mMoTextureRegion = BitmapTextureAtlasTextureRegionFactory
-				.createFromAsset(this.mBitmapTextureAtlas1, this, "mo.png");
+				.createFromAsset(this.mBitmapTextureAtlas1, this, "mo.png"); 
 		
 		mLetter1TextureRegion = BitmapTextureAtlasTextureRegionFactory
-				.createFromAsset(this.mBitmapTextureAtlas1, this, "mo.png");
+				.createFromAsset(this.mBitmapTextureAtlas1, this, "shorea.png");
 		mLetter2TextureRegion = BitmapTextureAtlasTextureRegionFactory
 				.createFromAsset(this.mBitmapTextureAtlas1, this, "mo.png");
 		mLetter3TextureRegion = BitmapTextureAtlasTextureRegionFactory
 				.createFromAsset(this.mBitmapTextureAtlas1, this, "mo.png");
 		mLetter4TextureRegion = BitmapTextureAtlasTextureRegionFactory
-				.createFromAsset(this.mBitmapTextureAtlas1, this, "mo.png");
+				.createFromAsset(this.mBitmapTextureAtlas1, this, "akar.png");
 
 		mAamTextureRegion = BitmapTextureAtlasTextureRegionFactory
 				.createFromAsset(this.mBitmapTextureAtlas2, this, "aam.png");
@@ -178,22 +177,22 @@ public class MainActivity extends SimpleBaseGameActivity
 		backGround.setWidth(CAMERA_WIDTH);
 		mScene.attachChild(backGround);
 		
-		letter1 = new Letter(CAMERA_WIDTH , parrotHeight, MainActivity.mMoTextureRegion,
+		letter1 = new Letter(CAMERA_WIDTH , parrotHeight, MainActivity.mLetter1TextureRegion,
 				MainActivity.vertexBufferObjectManager); 
 		mScene.registerTouchArea(letter1);
 		mScene.attachChild(letter1);
 		
-		letter2 = new Letter(MainActivity.CAMERA_WIDTH +100,MainActivity.CAMERA_HEIGHT / 18, MainActivity.mMoTextureRegion,
+		letter2 = new Letter(MainActivity.CAMERA_WIDTH +100,MainActivity.CAMERA_HEIGHT / 18, MainActivity.mLetter2TextureRegion,
 				MainActivity.vertexBufferObjectManager); 
 		mScene.registerTouchArea(letter2);
 		mScene.attachChild(letter2);
 		
-		letter3 = new Letter(MainActivity.CAMERA_WIDTH +100,MainActivity.CAMERA_HEIGHT / 18, MainActivity.mMoTextureRegion,
+		letter3 = new Letter(MainActivity.CAMERA_WIDTH +100,MainActivity.CAMERA_HEIGHT / 18, MainActivity.mLetter3TextureRegion,
 				MainActivity.vertexBufferObjectManager); 
 		mScene.registerTouchArea(letter3);
 		mScene.attachChild(letter3);
 		
-		letter4 = new Letter(MainActivity.CAMERA_WIDTH +100,MainActivity.CAMERA_HEIGHT / 18, MainActivity.mMoTextureRegion,
+		letter4 = new Letter(MainActivity.CAMERA_WIDTH +100,MainActivity.CAMERA_HEIGHT / 18, MainActivity.mLetter4TextureRegion,
 				MainActivity.vertexBufferObjectManager); 
 		mScene.registerTouchArea(letter4);
 		mScene.attachChild(letter4);
@@ -204,7 +203,7 @@ public class MainActivity extends SimpleBaseGameActivity
 		mScene.registerTouchArea(parrot); 
 		mScene.attachChild(parrot);
 		
-		aam = new Letter(MainActivity.letter2Pos+100,MainActivity.CAMERA_HEIGHT/2+100 , MainActivity.mAamTextureRegion,
+		aam = new Letter(MainActivity.letter2Pos+130,MainActivity.CAMERA_HEIGHT/2+50 , MainActivity.mAamTextureRegion,
 				MainActivity.vertexBufferObjectManager); 
 		mScene.registerTouchArea(aam);
 		aam.setWidth(150);
@@ -212,7 +211,7 @@ public class MainActivity extends SimpleBaseGameActivity
 		mScene.attachChild(aam);
 		aam.setVisible(false);
 		
-		ma = new Letter(MainActivity.letter4Pos+100,MainActivity.CAMERA_HEIGHT/2+100 , MainActivity.mMaTextureRegion,
+		ma = new Letter(MainActivity.letter4Pos+100,MainActivity.CAMERA_HEIGHT/2+50 , MainActivity.mMaTextureRegion,
 				MainActivity.vertexBufferObjectManager);
 		mScene.registerTouchArea(ma);
 		ma.setWidth(150);

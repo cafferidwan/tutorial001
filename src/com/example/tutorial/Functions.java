@@ -3,6 +3,7 @@ package com.example.tutorial;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.IEntity;
+import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.modifier.PathModifier;
@@ -13,6 +14,7 @@ import org.andengine.entity.modifier.PathModifier.Path;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.EaseSineInOut;
+
 
 public class Functions 
 {
@@ -125,9 +127,6 @@ public class Functions
 									MainActivity.letter1.getX(), MainActivity.letter1.getY() - 100,
 									-200, MainActivity.parrotHeight
 				 					);
-							
-//							SoundFunction.audioPlay = true;
-//							SoundFunction.playAudio(R.raw.seven);
 						}
 						else if(MainActivity.parrotWay == 8)
 						{
@@ -259,6 +258,41 @@ public class Functions
 					MainActivity.ma.setVisible(true);
 					SoundFunction.audioPlay = true;
 					SoundFunction.playAudioLoop2(R.raw.thirteen, R.raw.forteen);
+					
+					MainActivity.mScene.registerUpdateHandler(new TimerHandler((float) 7.85, new ITimerCallback() 
+					{
+						
+						@Override
+						public void onTimePassed(TimerHandler pTimerHandler) 
+						{
+							// TODO Auto-generated method stub
+							SoundFunction.audioPlay = true;
+							SoundFunction.playAudioLoop3(R.raw.fifteen, R.raw.sixteen , R.raw.seventeen);
+						} 
+					}));
+					
+					MainActivity.mScene.registerUpdateHandler(new TimerHandler((float) 9.85, new ITimerCallback() 
+					{
+						
+						@Override
+						public void onTimePassed(TimerHandler pTimerHandler) 
+						{
+							// TODO Auto-generated method stub
+							Functions.fadeOut(MainActivity.letter1);
+						} 
+					}));
+					
+					MainActivity.mScene.registerUpdateHandler(new TimerHandler((float) 10.85, new ITimerCallback() 
+					{
+						
+						@Override
+						public void onTimePassed(TimerHandler pTimerHandler) 
+						{
+							// TODO Auto-generated method stub
+							Functions.fadeOut(MainActivity.letter4);
+						} 
+					}));
+					
 				}
 				else if(MainActivity.parrotWay == 15)
 				{
@@ -319,6 +353,32 @@ public class Functions
 				
 			}
 		}, EaseSineInOut.getInstance()));
+	}
+	
+	public static void fadeOut(final Sprite sprite)
+	{
+		if(sprite!= null)
+		{
+		AlphaModifier yourModifier = new AlphaModifier(1f, 0.5f, 0f)
+		{
+		        @Override
+		        protected void onModifierStarted(IEntity pItem)
+		        {
+		                super.onModifierStarted(pItem);
+		                // Your action after starting modifier
+		        }
+		       
+		        @Override
+		        protected void onModifierFinished(IEntity pItem)
+		        {
+		                super.onModifierFinished(pItem);
+		                // Your action after finishing modifier
+		                sprite.setAlpha(1);
+		        }
+		};
+		 
+		sprite.registerEntityModifier(yourModifier);
+		}
 	}
 	
 }

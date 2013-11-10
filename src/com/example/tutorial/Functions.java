@@ -3,10 +3,10 @@ package com.example.tutorial;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.IEntity;
-import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.modifier.PathModifier;
+import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.modifier.PathModifier.IPathModifierListener;
@@ -51,7 +51,7 @@ public class Functions
 						
 						if(MainActivity.parrotWay == 10)
 						{
-							Functions.letter(11, 2, MainActivity.letter4, MainActivity.letter4Pos, 
+							Functions.letter(11, 2, MainActivity.letter4, MainActivity.letter4.getX(), 
 									MainActivity.letter4Pos,
 									MainActivity.CAMERA_HEIGHT / 2 -80, 
 									MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
@@ -61,7 +61,7 @@ public class Functions
 						}
 						else if(MainActivity.parrotWay == 7)
 						{
-							Functions.letter(8, 2, MainActivity.letter3, MainActivity.letter3Pos, 
+							Functions.letter(8, 2, MainActivity.letter3, MainActivity.letter3.getX(), 
 									MainActivity.letter3Pos,MainActivity.CAMERA_HEIGHT / 2 -80, 
 									MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
 							
@@ -71,7 +71,7 @@ public class Functions
 						}
 						else if(MainActivity.parrotWay == 4)
 						{
-							Functions.letter(5, 2, MainActivity.letter2, MainActivity.letter2Pos, 
+							Functions.letter(5, 2, MainActivity.letter2, MainActivity.letter2.getX(), 
 									MainActivity.letter2Pos,
 									MainActivity.CAMERA_HEIGHT / 2 -80, 
 									MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
@@ -80,13 +80,13 @@ public class Functions
 							SoundFunction.playAudioLoop3(R.raw.thirdo ,R.raw.thirds ,R.raw.thirdt);
 						}
 						else
-						{
-							Functions.letter(2, (float) 1.5, MainActivity.letter1, MainActivity.letter1Pos, 
+						{ 
+							Functions.letter(2, 2, MainActivity.letter1, MainActivity.letter1.getX(), 
 									MainActivity.letter1Pos,
 									MainActivity.CAMERA_HEIGHT / 2 -80, 
 									MainActivity.CAMERA_HEIGHT-MainActivity.CAMERA_HEIGHT/5);
 							
-							SoundFunction.audioPlay = true;
+							SoundFunction.audioPlay = true; 
 							SoundFunction.playAudio(R.raw.sec);
 						}
 					}
@@ -126,11 +126,11 @@ public class Functions
 									MainActivity.parrotHeight,
 									MainActivity.letter1.getX(), MainActivity.letter1.getY() - 100,
 									-200, MainActivity.parrotHeight
-				 					);
+				 					);  
 						}
 						else if(MainActivity.parrotWay == 8)
 						{
-							Functions.parrotPath(9, 1, 2, MainActivity.parrot, 
+							Functions.parrotPath(9, (float) 0.1, 2, MainActivity.parrot, 
 									MainActivity.letter3Pos, -150,
 									MainActivity.parrotHeight,
 									MainActivity.parrotHeight
@@ -138,7 +138,7 @@ public class Functions
 						}
 						else if(MainActivity.parrotWay == 5)
 						{
-							Functions.parrotPath(6, 11, 3, MainActivity.parrot, MainActivity.letter2Pos,
+							Functions.parrotPath(6, (float) 0.1, 2, MainActivity.parrot, MainActivity.letter2Pos,
 									MainActivity.CAMERA_WIDTH+150,
 									MainActivity.parrotHeight,
 									MainActivity.parrotHeight
@@ -154,10 +154,10 @@ public class Functions
 								}
 							}));
 							
-						}
+						} 
 						else
 						{
-							Functions.parrotPath(3, 5, 2, MainActivity.parrot, MainActivity.letter1Pos,
+							Functions.parrotPath(3, (float) 0.1 , 2, MainActivity.parrot, MainActivity.letter1Pos,
 									-150, 
 									MainActivity.parrotHeight,
 									MainActivity.parrotHeight
@@ -203,14 +203,14 @@ public class Functions
 						else if(MainActivity.parrotWay == 6)
 						{
 						
-							Functions.parrotWithLetterPath(7, 1,
-									0, 3, MainActivity.letter3, MainActivity.parrot, 
+							Functions.parrotWithLetterPath(7, (float) 0.1,
+									0, 2, MainActivity.letter3, MainActivity.parrot, 
 									MainActivity.CAMERA_WIDTH+150, MainActivity.letter3Pos, 
 									MainActivity.parrotHeight, MainActivity.parrotHeight);
 						} 
 						else
 						{
-							Functions.parrotWithLetterPath(4, 1,
+							Functions.parrotWithLetterPath(4, (float) 0.1,
 									1, 3, MainActivity.letter2, MainActivity.parrot, -150, 
 									MainActivity.letter2Pos,
 									MainActivity.parrotHeight, MainActivity.parrotHeight);
@@ -303,6 +303,7 @@ public class Functions
 							);
 					SoundFunction.audioPlay = true;
 					SoundFunction.playAudio(R.raw.twelve);
+					
 				}
 				else if(MainActivity.parrotWay == 14)
 				{
@@ -318,8 +319,19 @@ public class Functions
 									MainActivity.letter3Pos-30, MainActivity.letter3.getY() -100,
 									MainActivity.letter3Pos-30, MainActivity.parrotHeight
 									);
-							SoundFunction.audioPlay = true;
-							SoundFunction.playAudio(R.raw.eleven);
+//							SoundFunction.audioPlay = true;
+//							SoundFunction.playAudio(R.raw.eleven);
+							MainActivity.mScene.registerUpdateHandler(new TimerHandler((float) 0.85, new ITimerCallback() 
+							{
+								
+								@Override
+								public void onTimePassed(TimerHandler pTimerHandler) 
+								{
+									// TODO Auto-generated method stub
+									SoundFunction.audioPlay = true;
+									SoundFunction.playAudio(R.raw.eleven);
+								} 
+							}));
 						}
 					}));
 					
@@ -359,13 +371,14 @@ public class Functions
 	{
 		if(sprite!= null)
 		{
-		AlphaModifier yourModifier = new AlphaModifier(1f, 0.5f, 0f)
+		ScaleModifier yourModifier = new ScaleModifier(1f, 1.5f, 2f)
 		{
 		        @Override
 		        protected void onModifierStarted(IEntity pItem)
 		        {
 		                super.onModifierStarted(pItem);
 		                // Your action after starting modifier
+		               // sprite.setScale((float) 1.5);
 		        }
 		       
 		        @Override
@@ -373,7 +386,8 @@ public class Functions
 		        {
 		                super.onModifierFinished(pItem);
 		                // Your action after finishing modifier
-		                sprite.setAlpha(1);
+		                sprite.setScale((float) 1.0);
+		                //sprite.setAlpha(1);
 		        }
 		};
 		 

@@ -203,19 +203,19 @@ public class MainActivity extends SimpleBaseGameActivity
 		mScene.registerTouchArea(parrot); 
 		mScene.attachChild(parrot);
 		
-		aam = new Letter(MainActivity.letter2Pos+130,MainActivity.CAMERA_HEIGHT/2+50 , MainActivity.mAamTextureRegion,
+		aam = new Letter(MainActivity.letter1Pos + 50, MainActivity.CAMERA_HEIGHT/2 , MainActivity.mAamTextureRegion,
 				MainActivity.vertexBufferObjectManager); 
 		mScene.registerTouchArea(aam);
-		aam.setWidth(150);
-		aam.setHeight(150);
+		aam.setWidth(130);
+		aam.setHeight(130);
 		mScene.attachChild(aam);
 		aam.setVisible(false);
 		
-		ma = new Letter(MainActivity.letter4Pos+100,MainActivity.CAMERA_HEIGHT/2+50 , MainActivity.mMaTextureRegion,
+		ma = new Letter(MainActivity.letter3Pos + 50,MainActivity.CAMERA_HEIGHT/2 , MainActivity.mMaTextureRegion,
 				MainActivity.vertexBufferObjectManager);
 		mScene.registerTouchArea(ma);
-		ma.setWidth(150);
-		ma.setHeight(150);
+		ma.setWidth(130);
+		ma.setHeight(130);
 		mScene.attachChild(ma);
 		ma.setVisible(false);
 		
